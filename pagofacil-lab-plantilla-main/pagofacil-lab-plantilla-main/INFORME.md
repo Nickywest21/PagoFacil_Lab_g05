@@ -66,11 +66,11 @@ eb382ad first commit
 
 `git shortlog -sn main` · commits por integrante
 ```
-    11	Christopher Lopez
-     3	Nicky
-     2	mwschaub
-     1	Juan Pablo
-     1	Nahomy Chitay
+    	Christopher Lopez
+   	Nicky
+   	mwschaub
+   	Juan Pablo
+   	Nahomy Chitay
 ```
 
 Los cinco integrantes aparecen con al menos un commit. En la Parte 2, `bfc7401` es el primer
