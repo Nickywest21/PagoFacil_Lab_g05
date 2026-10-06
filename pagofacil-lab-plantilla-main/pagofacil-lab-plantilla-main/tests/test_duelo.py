@@ -14,54 +14,52 @@ REGLAS
   5. Trabaja SOLO en este archivo durante el duelo.
 """
 import pytest
-
-from pagofacil.comision import calcular_comision, calcular_total, validar_monto  # noqa: F401
-
-
-def test_ejemplo_monto_bajo():  # ejemplo que ya pasa; puedes borrarlo o conservarlo
-    assert calcular_comision(50) == 0
-
-
-# --- Tus pruebas empiezan aquí ---
-# Técnicas: partición de equivalencia (PE) y valores límite (VL).
+from pagofacil.comision import calcular_comision, calcular_total
 
 
 @pytest.mark.parametrize("monto, esperado", [
     (0.01, 0.0),       # VL: menor monto válido -> Tramo 1
+    (50, 0.0),         # PE: Tramo 1
     (100, 0.0),        # VL: frontera Tramo 1 (incluye Q100)
-    (100.01, 1.5),     # VL: primer valor del Tramo 2 (1.50015 -> 1.50)
-    (500, 7.5),        # PE: representativo Tramo 2
-    (1000, 15.0),      # VL: frontera Tramo 2 (incluye Q1,000, sigue en 1.5 %)
-    (1000.01, 10.0),   # VL: primer valor del Tramo 3 (10.0001 -> 10.00)
-    (1999.99, 20.0),   # Redondeo: 19.9999 -> 20.00 (truncar daría 19.99)
-    (2400, 24.0),      # PE: Tramo 3 sin llegar al tope
-    (2500, 25.0),      # VL: comisión exactamente igual al tope
-    (2510, 25.0),      # VL: primer valor que supera el tope
-    (100000, 25.0),    # PE: monto muy grande, tope
+    (100.01, 1.5),     # VL: límite inferior Tramo 2 (1.50015 -> 1.50)
+    (200, 3.0),        # PE: Tramo 2 limpio
+    (500, 7.5),        # PE: Tramo 2
+    (1000, 15.0),      # VL: frontera Tramo 2 (incluye Q1,000)
+    (1000.01, 10.0),   # VL: límite inferior Tramo 3
+    (1500, 15.0),      # PE: Tramo 3 sin llegar al tope
+    (1999.99, 20.0),   # Redondeo: 19.9999 -> 20.00
+    (2400, 24.0),      # PE: Tramo 3 cercano al tope
+    (2500, 25.0),      # VL: comisión exactamente Q25.00
+    (2510, 25.0),      # VL: supera tope
+    (10000, 25.0),     # PE: tope aplicado
 ])
 def test_comision_por_tramos(monto, esperado):
     assert calcular_comision(monto) == esperado
 
 
 @pytest.mark.parametrize("monto, esperado", [
-    (100, 100.0),      # Tramo 1: total sin comisión
-    (100.01, 101.51),  # Tramo 2 en el límite
-    (200, 203.0),      # Tramo 2
-    (5000, 5025.0),    # Tope
+    (50, 50.0),        # Tramo 1: total sin comisión
+    (100, 100.0),      # Límite Tramo 1
+    (200, 203.0),      # Tramo 2 (200 + 3.00)
+    (1500, 1515.0),    # Tramo 3 (1500 + 15.00)
+    (5000, 5025.0),    # Tope (5000 + 25.00)
 ])
-def test_total(monto, esperado):
+def test_total_por_tramos(monto, esperado):
     assert calcular_total(monto) == esperado
 
 
-@pytest.mark.parametrize("monto", ["100", None, True, False])
+@pytest.mark.parametrize("monto", ["100", None, True, False, [], {}])
 def test_tipo_invalido(monto):
-    # True/False: la especificación los declara "no número" -> TypeError,
-    # aunque en Python bool sea subclase de int.
+    # Mutante bonus: True/False no son números válidos -> TypeError
     with pytest.raises(TypeError):
         calcular_comision(monto)
+    with pytest.raises(TypeError):
+        calcular_total(monto)
 
 
 @pytest.mark.parametrize("monto", [0, 0.0, -0.01, -100])
 def test_monto_no_positivo(monto):
     with pytest.raises(ValueError):
         calcular_comision(monto)
+    with pytest.raises(ValueError):
+        calcular_total(monto)
