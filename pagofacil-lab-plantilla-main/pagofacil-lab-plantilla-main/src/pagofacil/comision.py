@@ -27,7 +27,7 @@ def validar_monto(monto):
 def calcular_comision(monto):
     """Comisión (en Q, con 2 decimales) que paga el cliente por transferir `monto`."""
     monto = validar_monto(monto)
-    if monto < LIMITE_SIN_COMISION:
+    if monto <= LIMITE_SIN_COMISION:
         comision = 0.0
     elif monto <= LIMITE_TARIFA_INTERMEDIA:
         comision = monto * TASA_INTERMEDIA
