@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Verifica que tu computadora esté lista para el laboratorio.
+"""Verifica que tu computadora esté lista para el laboratorio. 1
 
-Ejecuta desde la carpeta de TU repositorio:
+Ejecuta desde la carpeta de TU repositorio: CAmbios
     python check_setup.py        (macOS/Linux: python3 check_setup.py)
 
 Al final copia TODA la salida en la plataforma del curso (o toma una captura completa).
