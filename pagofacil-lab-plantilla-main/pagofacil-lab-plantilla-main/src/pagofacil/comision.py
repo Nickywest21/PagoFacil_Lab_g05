@@ -39,4 +39,4 @@ def calcular_comision(monto):
 def calcular_total(monto):
     """Total que se debita al cliente: monto + comisión (2 decimales)."""
     comision = calcular_comision(monto)
-    return round(monto - comision, 2)
+    return round(monto + comision, 2)
