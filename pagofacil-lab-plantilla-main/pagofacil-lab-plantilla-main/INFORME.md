@@ -37,6 +37,46 @@ b75e26c (origin/Christopher, Christopher) "fix(comision): aplicar tope maximo de
 3cb0b2c (origin/JuanPablo) fix(comision): tramo 1 incluye el limite de Q100
 ```
 
+Este rango cubre únicamente el trabajo de la **Parte 1** (los 3 defectos corregidos), porque
+`v1.0.1` se creó antes de empezar el duelo. El trabajo de la **Parte 2** —el mini duelo— fue
+commiteado después de ese tag, por eso Nahomy y Marc no aparecen ahí. Para ver a los cinco
+integrantes usamos el historial completo:
+
+`git log --oneline --decorate`
+```
+655b145 (HEAD -> main, origin/main, origin/HEAD) docs(informe): actualizar datos del equipo y casos del duelo
+d0fdbbe Merge commit '459e4ac9a6cc6ab13dfd272c52beee10cd4858d1'
+459e4ac (origin/feature/Marcs) test(duelo): casos por particion y valores limite
+52fa559 docs(informe): completar informe del equipo
+a0e04f0 docs(changelog): agregar seccion 1.0.1 con los 3 defectos corregidos
+e2d6716 Merge commit 'bfc74010423c215d02b114598c3c65411b563411'
+bfc7401 (origin/Mariangel) Parte 2 Mini Duelo
+71187d4 Merge branch 'Mariangel' of https://github.com/Nickywest21/Laboratorio6Preparatorio into feature/Marcs necessary
+5dcb1e8 (tag: v1.0.1) docs(changelog): registrar versión 1.0.1
+7b760ab Merge commit '3cb0b2c234f5a242a998d7f39ff62a307d86fb13'
+9e2aa09 Merge commit 'c191ac2931e89a2af8735c3d69ed82c8c5842b2c'
+9713ba2 Merge commit 'b75e26c48af76364f40c63a44889e6897f4fbb00'
+c191ac2 fix(comision): arreglo de la suma en el round
+b75e26c (origin/Christopher, Christopher) "fix(comision): aplicar tope maximo de Q25"
+3cb0b2c fix(comision): tramo 1 incluye el limite de Q100
+3cdeade (tag: v1.0.0, origin/Marcs) Actualizacion
+abcb784 cambio
+eb382ad first commit
+```
+
+`git shortlog -sn main` · commits por integrante
+```
+    11	Christopher Lopez
+     3	Nicky
+     2	mwschaub
+     1	Juan Pablo
+     1	Nahomy Chitay
+```
+
+Los cinco integrantes aparecen con al menos un commit. En la Parte 2, `bfc7401` es el primer
+`tests/test_duelo.py` de Nahomy y `459e4ac` es la ampliación de Marc sobre ese mismo archivo
+(agregó `[]` y `{}` a los tipos inválidos y validó los errores también sobre `calcular_total`).
+
 ## 3. Bitácora de defectos
 
 | # | Pruebas que fallaban | Síntoma (mensaje del error) | Causa raíz | Corrección (qué línea cambió) | Commit | Quién |
@@ -69,7 +109,10 @@ Las 6 pruebas rojas eran 3 defectos multiplicados por el número de datos que ca
 
 ## 5. Mini duelo
 
-Tabla de casos que diseñaron (mínimo 6 filas; indiquen la técnica):
+Tabla de casos que diseñaron (mínimo 6 filas; indiquen la técnica). La primera versión de
+`tests/test_duelo.py` fue de Nahomy (`bfc7401`) y la ampliación final de Marc (`459e4ac`),
+que extiende los tipos inválidos y cubre `calcular_total`; el archivo combinado es el
+que se entrega:
 
 | Partición o límite que cubre | Entrada | Resultado esperado | Técnica |
 |------------------------------|---------|--------------------|---------|
