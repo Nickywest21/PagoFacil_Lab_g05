@@ -11,8 +11,8 @@
 | Integrante | Carnet | Usuario de GitHub |
 |------------|--------|-------------------|
 | Juan Pablo Estrada Rodriguez | 1056124 | juanpaestra8 |
-| Christopher Conrado López Vicente | 1053824 | (confirmar) |
-| Marc Wilhelm Schaub Garcia | 1243424 | Marcs |
+| Christopher Conrado López Vicente | 1053824 | ChristopherLopez1053824 |
+| Marc Wilhelm Schaub Garcia | 1243424 | mwschaub |
 | Nahomy Mariángel Chitay Duarte | 1211523 | mariangelduarte74 |
 | Paula Nicolle West Ortiz | 1245524 | Nickywest21 |
 
@@ -23,7 +23,7 @@ Pega la salida real de estos comandos (bloque de código):
 `python -m pytest -q`
 ```
 ...................................                                      [100%]
-35 passed in 0.02s
+40 passed in 0.02s
 ```
 
 `git log v1.0.0..v1.0.1 --oneline --decorate`
@@ -80,15 +80,15 @@ Tabla de casos que diseñaron (mínimo 6 filas; indiquen la técnica):
 | Tramo 3 · representativo sin llegar al tope | `2400` | comisión `24.0` | Partición de equivalencia |
 | Tope Q25 · comisión exactamente igual al tope | `2500` | comisión `25.0` | Valor límite |
 | Tope Q25 · primer valor que lo supera | `2510` | comisión `25.0` | Valor límite |
-| Tope Q25 · monto muy grande | `100000` | comisión `25.0` | Partición de equivalencia |
+| Tope Q25 · monto muy grande | `10000` | comisión `25.0` | Partición de equivalencia |
 | RN2 · redondeo a 2 decimales (truncar daría 19.99) | `1999.99` | comisión `20.0` | Valor límite |
-| RN4 · tipos inválidos | `"100"`, `None` | `TypeError` | Partición de equivalencia |
+| RN4 · tipos inválidos | `"100"`, `None`, `[]`, `{}` | `TypeError` | Partición de equivalencia |
 | RN4 · `bool` no es un número válido (mutante bonus) | `True`, `False` | `TypeError` | Partición de equivalencia |
 | RN4 · números no positivos | `0`, `0.0`, `-0.01`, `-100` | `ValueError` | Partición de equivalencia |
-| RN3 · total = monto + comisión | `200` → `203.0`, `5000` → `5025.0` | total correcto | Partición de equivalencia |
+| RN3 · total = monto + comisión | `100` → `100.0`, `200` → `203.0`, `1500` → `1515.0`, `5000` → `5025.0` | total correcto | Partición de equivalencia |
 
 - **Resultado del marcador (mutantes detectados de 7):** *Pendiente.* El docente aún no ha ejecutado la revisión (minuto 55). Nuestra cobertura apunta a los 6 mutantes normales (las 3 fronteras de los tramos, las 2 tasas, el tope) **más el mutante bonus**, que la RN4 declara explícitamente: `True`/`False` deben levantar `TypeError` aunque en Python `bool` sea subclase de `int`. Creemos que es el único que exige leer la regla con cuidado, porque un mutante que quita el `isinstance(monto, bool)` de `validar_monto` seguiría *"funcionando"* para todos los montos numéricos.
-- **¿Qué mutantes sobrevivieron (si alguno) y qué caso de prueba les habría faltado?** *Pendiente de conocer el marcador.* Casos que sabemos que **no** cubrimos, y que son las candidatas más probables a sobrevivir: (a) no verificamos que `validar_monto` devuelva un `float` (un mutante que quite el `return float(monto)`); (b) `test_total` solo cubre el Tramo 2 y el tope, no un Tramo 3 sin tope ni un Tramo 1; y (c) ningún caso fuerza un redondeo de 3 decimales a 2 en la función `calcular_total` más allá de lo que ya hace `100.01`.
+- **¿Qué mutantes sobrevivieron (si alguno) y qué caso de prueba les habría faltado?** *Pendiente de conocer el marcador.* Casos que sabemos que **no** cubrimos, y que son las candidatas más probables a sobrevivir: (a) no verificamos que `validar_monto` devuelva un `float` (un mutante que quite el `return float(monto)`); (b) ya no aplica: `test_total_por_tramos` cubre ahora los tres tramos (Tramo 1 con `50` y `100`, Tramo 2 con `200`, Tramo 3 sin tope con `1500`, y el tope con `5000`); y (c) ningún caso fuerza un redondeo de 3 decimales a 2 dentro de `calcular_total`, porque `200 + 3.0` y `1500 + 15.0` ya salen exactos. El punto (a) sigue siendo el hueco real.
 
 ## 6. Reflexión (5 a 8 líneas)
 
